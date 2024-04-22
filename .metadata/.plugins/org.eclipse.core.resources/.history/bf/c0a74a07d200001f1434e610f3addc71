@@ -1,0 +1,52 @@
+package com.cirodeleon.apps.app.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cirodeleon.apps.app.entity.Producto;
+import com.cirodeleon.apps.app.service.ProductoService;
+
+@RestController
+@RequestMapping("/api/productos")
+public class ProductoController {
+
+    @Autowired
+    private ProductoService service;
+
+    @PostMapping
+    public Producto addProducto(@RequestBody Producto producto) {
+        return service.saveProducto(producto);
+    }
+
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public List<Producto> getAllProductos() {
+        return service.getAllProductos();
+    }
+
+    @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public Producto getProductoById(@PathVariable Long id) {
+        return service.getProductoById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Producto updateProducto(@RequestBody Producto producto, @PathVariable Long id) {
+        Producto existingProducto = service.getProductoById(id);
+        existingProducto.setNombre(producto.getNombre());
+        existingProducto.setDescripcion(producto.getDescripcion());
+        existingProducto.setPrecio(producto.getPrecio());
+        return service.saveProducto(existingProducto);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteProducto(@PathVariable Long id) {
+        service.deleteProducto(id);
+        return "Producto eliminado con éxito!";
+    }
+}

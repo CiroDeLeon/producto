@@ -1,0 +1,5 @@
+package com.cirodeleon.apps.app.repository;
+
+public interface ProductoRepository {
+
+}

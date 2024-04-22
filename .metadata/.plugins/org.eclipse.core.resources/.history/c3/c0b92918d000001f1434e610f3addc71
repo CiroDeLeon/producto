@@ -1,0 +1,27 @@
+package com.cirodeleon.apps.app.entity;
+
+
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "productos")
+public class Producto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    private String nombre;
+
+    @NotNull
+    private String descripcion;
+
+    @NotNull
+    private BigDecimal precio;
+
+    // Getters y setters
+}

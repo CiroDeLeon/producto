@@ -1,0 +1,43 @@
+INSTALACION AMBIENTE PRODUCTIVO
+
+llegar a la raiz del proyecto en la consola
+
+1) en el applications.properties ajustar la propiedad:
+
+spring.profiles.active=prod
+
+3) verificar que el archivo script.sh de la raiz del proyecto java use el end of line sequence LF.
+(esto sucede mas que todo en windows,se soluciona abriendo el archivo script.sh con visual studio code en la parte inferior debe salir una casilla CLRF la cambias a LF y guardas el archivo)
+
+4) crear la imagen usando el comando:
+
+docker build -t  app-ciro-prod .
+
+5)crear el contenedor usando el comando:
+
+docker run -p 8443:8443 -v nombre_de_tu_volumen:/var/lib/postgresql/data app-ciro-prod
+
+
+6) accedemos a swagger
+
+https://localhost:8081/swagger-ui/index.html
+
+
+
+INSTALACION AMBIENTE DESARROLLO
+
+llegar a la raiz del proyecto en la consola
+
+1)en el applications.properties ajustar la propiedad:
+
+spring.profiles.active=dev
+
+2) ejecutamos en consola 
+
+mvn clean install -Pdev
+
+
+
+
+
+

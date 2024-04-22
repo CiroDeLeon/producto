@@ -1,0 +1,5 @@
+package com.cirodeleon.apps.app.advice;
+
+public class GlobalExceptionHandler {
+
+}

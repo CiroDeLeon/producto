@@ -1,0 +1,36 @@
+package com.cirodeleon.apps.app.config;
+
+package com.cirodeleon.apps.app.config;
+
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+
+@Configuration
+@OpenAPIDefinition(info = @Info(title = "Producto API", version = "v1"))
+@SecurityScheme(
+    name = "BearerAuth",
+    type = SecuritySchemeType.HTTP,
+    scheme = "bearer",
+    bearerFormat = "JWT",
+    in = SecuritySchemeIn.HEADER
+)
+public class OpenApiConfig {
+    @Bean
+    public OpenApiCustomiser customerGlobalHeaderOpenApiCustomiser() {
+        return openApi -> {
+            openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations().forEach(operation -> {
+                operation.getResponses().forEach((code, response) -> {
+                    response.getContent().put(MediaType.APPLICATION_JSON_VALUE, new io.swagger.v3.oas.models.media.MediaType());
+                    response.getContent().put(MediaType.APPLICATION_XML_VALUE, new io.swagger.v3.oas.models.media.MediaType());
+                });
+            }));
+        };
+    }
+}
